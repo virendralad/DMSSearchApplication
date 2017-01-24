@@ -1,0 +1,123 @@
+﻿<Window x:Class="DMSSearchApplication.UserControls.LookUpSearch.LookUpSearchView"        
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"         
+        xmlns:Helper="clr-namespace:DMSSearchApplication.UserControls.LookUpSearch.HelperClasses"                
+        mc:Ignorable="d" Title="Phoenix DMS Search" Height="595"  MinHeight="500" MinWidth="650"
+        Background="White"
+        
+    Helper:CommandBehaviour.WindowLoaded="{Binding WindowLoaded}"    
+        WindowStartupLocation="CenterScreen" ShowInTaskbar="False" ResizeMode="CanResize"
+         PreviewKeyDown="Window_PreviewKeyDown">
+    <!--Loaded="Window_Loaded"-->
+
+
+    <Window.Resources>
+        <!--<i:PathConverter x:Key="ImagePathConverter" />-->
+        <DataTemplate x:Key="StatusTemplateNormal" x:Name="mNormalImage">
+            <Image Width="12" Height="12" Margin="3,0" />
+            <!--<Image Width="16" Height="16" Source="Images\Normal.png" />-->
+            <!-- Embedded -->
+        </DataTemplate>
+
+        <Storyboard x:Key="WaitStoryboard">
+            <DoubleAnimation
+        Storyboard.TargetName="Waiting"
+        Storyboard.TargetProperty="(Image.RenderTransform).(RotateTransform.Angle)"
+        From="0"
+        To="360"
+        Duration="0:0:1"
+        RepeatBehavior="Forever" />
+        </Storyboard>
+
+    </Window.Resources>
+
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0" />
+            <RowDefinition Height="21" />
+            <RowDefinition Height="0" />
+            <RowDefinition Height="AUTO" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="35" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="1" Background="#ffccccff">
+
+        </Grid>
+        <!-- Row 0 -->
+        <!-- Row 1 -->
+        <ScrollViewer Grid.Row="3" Height="200" Name="scrMain" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <StackPanel  Name="spMain" Orientation="Vertical" HorizontalAlignment="Stretch" Grid.Row="1" >
+                <!--<my:AdvancedSearchView HorizontalAlignment="Center" Name="advancedSearchView1" VerticalAlignment="Top" Width="Auto" HorizontalContentAlignment="Center" Margin="0,0,0,15" Grid.Row="0"/>-->
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Row 2 -->
+        <StackPanel  Grid.Row="4" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
+            <Grid  Name="grid22" Margin="0,5" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75" />
+                    <ColumnDefinition Width="75" />
+                </Grid.ColumnDefinitions>
+                <Button Content="Cancel" Height="23" Name="btnCancel" Click="btnCancel_Click" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" TabIndex="125" />
+                <Button Content="Search"
+                        Height="23"
+                        Name="btnSearch"
+                        Click="btnSearch_Click"                        
+                        VerticalAlignment="Top"
+                        IsDefault="True"
+                        TabIndex="120" HorizontalAlignment="Center" />
+            </Grid>
+        </StackPanel>
+
+        <!-- Row 3 -->
+        <Grid Grid.Row="5" >
+
+            <ScrollViewer Name="scrlviewer" VerticalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Disabled"></ScrollViewer>
+            <DataGrid Name="gridData" ItemsSource="{Binding dtData}" Visibility="Visible" ToolTip="{Binding GridToolTip}"  AutoGenerateColumns="True"   
+                      MouseDoubleClick="gridData_MouseDoubleClick" IsReadOnly="True" 
+                      VirtualizingStackPanel.VirtualizationMode="Standard" HorizontalAlignment="Stretch"
+                      ScrollViewer.ScrollChanged="gridData_ScrollChanged" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+                      HeadersVisibility="Column" Helper:CommandBehaviour.PreviewKeyDown="{Binding DataGridPreviewKeyDown}"
+                TextBlock.TextAlignment="Center" >
+
+                <!--PreviewKeyDown="gridData_PreviewKeyDown_1"-->
+                <!--<InteractivityCommand:Interaction.Triggers>
+                    <InteractivityCommand:EventTrigger EventName="PreviewKeyDown">
+                        <InteractivityCommand:InvokeCommandAction CommandName="test" />
+                    </InteractivityCommand:EventTrigger>
+                </InteractivityCommand:Interaction.Triggers>-->
+
+            </DataGrid>
+            <!--<Label Name="Waiting" Content="Wait Data is rendering" Visibility="Hidden"></Label>-->
+            <Image Name="Waiting" Source="/Images/LoadingIcon.png" RenderTransformOrigin="0.5, 0.5" Stretch="None" Visibility="{Binding LoadIconVisibility}">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="0" />
+                </Image.RenderTransform>
+            </Image>
+        </Grid>
+
+        <!-- Row 4 -->
+        <StackPanel  Grid.Row="6" Orientation="Horizontal" VerticalAlignment="Stretch" Visibility="Visible" Margin="5,5,0,5">
+            <Button Content="Ok" Width="75" Height="23" Name="btnOk" Click="btnOk_Click" TabIndex="130" />
+        </StackPanel>
+        <!--<Grid Name="grid21" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,5,0,0"
+              Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="130" />
+                <ColumnDefinition Width="75" />
+            </Grid.ColumnDefinitions>
+            <Button Content="Reset" Height="23" Name="btnReset" ToolTip="Reset all search parameters" Click="btnReset_Click" Style="{StaticResource Secondarybtn}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" TabIndex="15" />
+            <Button Content="Add Search Criterion" Height="23" Name="btnAdd"  ToolTip="Add new search parameter row" Click="Add_Click" Style="{StaticResource Primarybtn}" VerticalAlignment="Top" HorizontalAlignment="Left" TabIndex="10" Width="120" Margin="7,0,0,0" />
+        </Grid>-->
+        <Grid  Grid.Row="7" Height="30" HorizontalAlignment="Stretch" Margin="0" Name="grid23" VerticalAlignment="Top">
+            <Label Name="lblTotal" Content="Total Records  : " HorizontalAlignment="Left"  VerticalAlignment="Center" VerticalContentAlignment="Center" />
+            <Label Name="lblTotalRecord" Content="{Binding TotalReocords}" Height="30" HorizontalAlignment="Left" Margin="90,0,0,0" Padding="1"  VerticalAlignment="Center" VerticalContentAlignment="Center" Width="110" />
+        </Grid>
+    </Grid>
+</Window>

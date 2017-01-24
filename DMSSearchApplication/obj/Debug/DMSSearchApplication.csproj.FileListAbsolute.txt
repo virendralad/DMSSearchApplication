@@ -1,0 +1,17 @@
+D:\Data\virendra.lad\Personal\DMSSearchApplication\DMSSearchApplication\bin\Debug\DMSSearchApplication.exe.config
+D:\Data\virendra.lad\Personal\DMSSearchApplication\DMSSearchApplication\obj\Debug\DMSSearchApplication.csprojResolveAssemblyReference.cache
+D:\Data\virendra.lad\Personal\DMSSearchApplication\DMSSearchApplication\obj\Debug\MainWindow.baml
+D:\Data\virendra.lad\Personal\DMSSearchApplication\DMSSearchApplication\obj\Debug\MainWindow.g.cs
+D:\Data\virendra.lad\Personal\DMSSearchApplication\DMSSearchApplication\obj\Debug\UserControls\LookUpSearch\LookUpSearchView.g.cs
+D:\Data\virendra.lad\Personal\DMSSearchApplication\DMSSearchApplication\obj\Debug\App.g.cs
+D:\Data\virendra.lad\Personal\DMSSearchApplication\DMSSearchApplication\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\Data\virendra.lad\Personal\DMSSearchApplication\DMSSearchApplication\obj\Debug\DMSSearchApplication_MarkupCompile.cache
+D:\Data\virendra.lad\Personal\DMSSearchApplication\DMSSearchApplication\obj\Debug\DMSSearchApplication_MarkupCompile.lref
+D:\Data\virendra.lad\Personal\DMSSearchApplication\DMSSearchApplication\bin\Debug\DMSSearchApplication.exe
+D:\Data\virendra.lad\Personal\DMSSearchApplication\DMSSearchApplication\bin\Debug\DMSSearchApplication.pdb
+D:\Data\virendra.lad\Personal\DMSSearchApplication\DMSSearchApplication\obj\Debug\UserControls\LookUpSearch\LookUpSearchView.baml
+D:\Data\virendra.lad\Personal\DMSSearchApplication\DMSSearchApplication\obj\Debug\DMSSearchApplication.g.resources
+D:\Data\virendra.lad\Personal\DMSSearchApplication\DMSSearchApplication\obj\Debug\DMSSearchApplication.Properties.Resources.resources
+D:\Data\virendra.lad\Personal\DMSSearchApplication\DMSSearchApplication\obj\Debug\DMSSearchApplication.csproj.GenerateResource.Cache
+D:\Data\virendra.lad\Personal\DMSSearchApplication\DMSSearchApplication\obj\Debug\DMSSearchApplication.exe
+D:\Data\virendra.lad\Personal\DMSSearchApplication\DMSSearchApplication\obj\Debug\DMSSearchApplication.pdb
