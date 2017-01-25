@@ -30,7 +30,7 @@ namespace DMSSearchApplication
 
         private void btnEmployeeName_Click(object sender, RoutedEventArgs e)
         {
-            LookUpSearchView objEmployee = new LookUpSearchView("ERMEmployee", "", "Normal", "EmployeeID");
+            LookUpSearchView objEmployee = new LookUpSearchView("ERMEmployee", "", "Normal", "EmployeeID", "Employee");
             //objEmployee.OnSearch += new LookUpSearchView.SearchHandler(objEmployee_OnSearch);
             SetOwner(objEmployee);
             objEmployee.ShowDialog();
@@ -46,6 +46,20 @@ namespace DMSSearchApplication
             WindowInteropHelper child = new WindowInteropHelper(objWD);
             WindowInteropHelper parent = new WindowInteropHelper(System.Windows.Application.Current.MainWindow);
             child.Owner = parent.Handle;
+        }
+
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            LookUpSearchView objEmployee = new LookUpSearchView("ZipCodeSearch", "txtZipCode", "normal", "ZipCode", "Employee");
+            SetOwner(objEmployee);
+            objEmployee.ShowDialog();
+        }
+
+        private void btnId_Click(object sender, RoutedEventArgs e)
+        {
+            LookUpSearchView objEmployee = new LookUpSearchView("ZipCodeSearch", "txtZipCode", "normal", "ZipCode", "Employee");
+            SetOwner(objEmployee);
+            objEmployee.ShowDialog();
         }
     }
 }

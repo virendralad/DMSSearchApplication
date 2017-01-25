@@ -18,6 +18,8 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Linq;
 using DMSSearchApplication.UserControls.LookUpSearch.HelperClasses;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 //9158 line of code was here
 namespace DMSSearchApplication.UserControls.LookUpSearch
@@ -30,7 +32,7 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
         #region Declaration
         public delegate void SearchHandler(args obj);
         public event SearchHandler OnSearch;
-
+        public BaseViewModel ObjBaseVM = new BaseViewModel();
         LookUpSearchViewwModel LookUpSearchViewwModel = null;
         #endregion
 
@@ -46,11 +48,14 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
 
         }
 
-        public LookUpSearchView(string FormName, string GridName, string SearchType, string ColumnName, string searchWindowName = "", string searchGridName = "", string ScreenName = "", bool isShowInActiveRecords = false)
+        public LookUpSearchView(string FormName, string GridName, string SearchType, string ColumnName,string CurrViewName, string searchWindowName = "", string searchGridName = "", string ScreenName = "", bool isShowInActiveRecords = false)
         {
             InitializeComponent();
             LookUpSearchViewwModel = new LookUpSearchViewwModel(FormName, GridName, SearchType, ColumnName, searchWindowName, searchGridName, ScreenName, isShowInActiveRecords);
             //ResetSearch(FormName, GridName, true);
+            GridColumnsTemplates obj = new GridColumnsTemplates();
+            ColumnCollection = obj.FindColumns(FormName, CurrViewName);
+            ObjBaseVM.OnPropertyChanged("ColumnCollection");
             DataContext = LookUpSearchViewwModel;
 
         }
@@ -105,7 +110,8 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
 
         private void Window_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-
+            //if (e.Key == System.Windows.Input.Key.Escape)
+            //    this.Close();
         }
 
         private void gridData_ScrollChanged(object sender, ScrollChangedEventArgs e)
@@ -114,32 +120,19 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
         }
         #endregion
 
-        //public List<clsItems> dtFillData
-        //{
-        //    get;
-        //    set;
-        //}
-
-        //private bool PartsStatusUpdate(string Active, long PartsID, long AssociatedPart)
-        //{
-        //    try
-        //    {
-        //        if (Active == "no")
-        //        {
-        //            if (MessageBoxResult.Yes == MessageBox.Show("Do you want to turn the Part Active?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question))
-        //            {
-        //                DMS.AppCommunication.CommunicationService cs = new AppCommunication.CommunicationService();
-        //                cs.PartsMasterActiveInActive_Update(PartsID, AssociatedPart);
-        //                return true;
-        //            }
-        //        }
-        //        return false;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return false;
-        //    }
-        //}
+        private ObservableCollection<DataGridColumn> _columnCollection = new ObservableCollection<DataGridColumn>();
+        public ObservableCollection<DataGridColumn> ColumnCollection
+        {
+            get
+            {
+                return this._columnCollection;
+            }
+            set
+            {
+                _columnCollection = value;
+                ObjBaseVM.OnPropertyChanged("ColumnCollection");
+            }
+        }
 
     }
 }

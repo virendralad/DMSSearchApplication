@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
+ 
 
 namespace DMSSearchApplication.UserControls.LookUpSearch
 {
@@ -25,6 +27,9 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
         public string _FormName = string.Empty;
         public string _SearchType = string.Empty;
         public string _ColumnName = string.Empty;
+        Window WindowEvent=null;
+        KeyEventArgs WindowKeyEvent = null;
+       
         #endregion
 
         #region Binding Properties
@@ -102,6 +107,75 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
         }
         #endregion
 
+        #region RelayCommand
+        RelayCommand _cancelCommand;
+        RelayCommand _windowKeyDown;
+        RelayCommand _windowPreviewKeyDown;
+
+        public ICommand CancelCommand
+        {
+            get
+            {
+                if (_cancelCommand == null)
+                    _cancelCommand = new RelayCommand(param => this.CancelCommandExecute(), param => this.CanCancelCommandExecute());
+
+                return _cancelCommand;
+            }
+        }
+
+        private bool CanCancelCommandExecute()
+        {
+            return true;
+        }
+
+        private object CancelCommandExecute()
+        {
+            ApplicationLevelConstants.SearchResult = null;   
+            WindowEvent.Close();
+            //Application.Current.Windows[Application.Current.Windows.Count - 1].Close();           
+            return true;
+        }
+
+        public ICommand WindowKeyDown
+        {
+            get {
+                if (_windowKeyDown == null)
+                    _windowKeyDown = new RelayCommand(param => this.ExecuteWindowKeyDown(), param => this.CanExecuteWindowKeyDown());
+                return _windowKeyDown;
+            }
+        }
+
+        private bool CanExecuteWindowKeyDown()
+        {
+            return true;
+        }
+
+        private object ExecuteWindowKeyDown()
+        {
+            return true;
+        }
+
+        public ICommand WindowPreviewKeyDown
+        {
+            get {
+                if (_windowPreviewKeyDown == null)
+                    _windowPreviewKeyDown = new RelayCommand(param =>this.ExecuteWindowPreviewKeyDown(param),param =>this.CanExecuteWindowPreviewKeyDown());
+                return _windowPreviewKeyDown;
+            }
+        }
+
+        private bool CanExecuteWindowPreviewKeyDown()
+        {
+            return true;       
+        }
+
+        private void ExecuteWindowPreviewKeyDown(object obj)
+        {
+            //if (WindowKeyEvent.Key == System.Windows.Input.Key.Escape)
+                WindowEvent.Close();            
+        }
+
+        #endregion
 
         #region Constructor
         public LookUpSearchViewwModel(string FormName, string GridName, string SearchType, string ColumnName, string searchWindowName = "", string searchGridName = "", string ScreenName = "", bool isShowInActiveRecords = false)
@@ -133,10 +207,13 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
         }
         protected override void OnWindowLoaded(object sender, object Event)
         {
-            base.OnWindowLoaded(sender, Event);
+            base.OnWindowLoaded(sender, Event);           
             Window Window = null;
             if (sender is Window)
-                Window = sender as Window;
+                Window= sender as Window;
+
+            WindowEvent = sender as Window;
+            WindowKeyEvent = Event as KeyEventArgs;
 
             if (Window != null)
             {
@@ -186,7 +263,7 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
             }
             OnPropertyChanged("TotalReocords");
             #endregion
-
+            
             #region Grid Tool Tip
             if (dtData != null)
             {
@@ -195,11 +272,28 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
             }
             #endregion
 
+            //Dispatcher.BeginInvoke(new Action(() =>
+            //{
+            //    foreach (object obj in gridData.Items)
+            //    {
+            //        gridData.SelectedItem = obj;
+            //        if (gridData.Columns.Count > 0)
+            //        {
+            //            DataGridCellInfo cellInfo = new DataGridCellInfo(gridData.SelectedItem, gridData.Columns[0]);
+            //            gridData.CurrentCell = cellInfo;
+            //        }
+
+            //        break;
+            //    }
+
+            //}), System.Windows.Threading.DispatcherPriority.Normal);
+
             #region Hide Loading Icon
             LoadIconVisibility = System.Windows.Visibility.Hidden;
             OnPropertyChanged("LoadIconVisibility");
             Window.IsEnabled = true;
             #endregion
+           
         }
 
         private void btnSearchAsync_Click(Window Window)
@@ -232,5 +326,6 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
 
         }
         #endregion
-    }
+    
+public  Window sender { get; set; }}
 }

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace DMSSearchApplication.UserControls.LookUpSearch.HelperClasses
 {
@@ -57,14 +59,35 @@ namespace DMSSearchApplication.UserControls.LookUpSearch.HelperClasses
             Dictionary<string, object> dic = new Dictionary<string, object>();
             DataTable ds = new DataTable();
             int TotalReocords = 0;
-
+            //string str = "";         
+            Task<DataTable> Result = null;
             if (_FormName.ToLower() == "ermemployee")
                 ds = CreateData();
+            else if (_FormName.ToLower() == "zipcodesearch")
+               // ds = GetTestData("Select * from City");
+            await Task.Run(() =>
+            {
+                Result = GetTestData("Select * from City");
+            });
+            if (Result!=null)
+                ds = (DataTable)Result.Result;
 
             TotalReocords = ds.Rows.Count;
             dic.Add("DataSet", ds);
             dic.Add("TotalReocords", TotalReocords);
             return dic;
+        }
+
+        public static async Task<DataTable> GetTestData(string str)
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString);           
+            con.Open();
+            SqlCommand cmd = new SqlCommand(str, con);
+            cmd.CommandType = CommandType.Text;
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);                
+            return dt;
         }
     }
 }
