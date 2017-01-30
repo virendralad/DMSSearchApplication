@@ -18,7 +18,7 @@ namespace DMSSearchApplication.UserControls.LookUpSearch.HelperClasses
         {
             switch (ViewName)
             {
-                case "MainWindows":
+                case "Employee":
                     return MainWindow(LookUpName);
                 default:
                     return null;
@@ -28,41 +28,74 @@ namespace DMSSearchApplication.UserControls.LookUpSearch.HelperClasses
         public ObservableCollection<DataGridColumn> MainWindow(string LookUpName)
         {
             ObservableCollection<DataGridColumn> ColumnCollection = new ObservableCollection<DataGridColumn>();
-            if (LookUpName == "EmployeeFirstNames")
-            {
-                System.Windows.Data.Binding bindings = new System.Windows.Data.Binding("FirstName");
-                DataGridTextColumn s = new DataGridTextColumn();
-                s.Header = "First Name";
-                s.Binding = bindings;
-                ColumnCollection.Add(s);
-            }
-            else if (LookUpName == "EmployeeLastNames")
-            {
-                System.Windows.Data.Binding bindings = new System.Windows.Data.Binding("LastName");
-                DataGridTextColumn s = new DataGridTextColumn();
-                s.Header = "Last Name";
-                s.Binding = bindings;
-                ColumnCollection.Add(s);
-            }
-            else if (LookUpName == "ERMEmployee")
-            {
-                System.Windows.Data.Binding FNameBinding = new System.Windows.Data.Binding("FirstName");
-                DataGridTextColumn FName = new DataGridTextColumn();
-                FName.Header = "First Name";
-                FName.Binding = FNameBinding;
-                ColumnCollection.Add(FName);
 
-                System.Windows.Data.Binding MNameBinding = new System.Windows.Data.Binding("MiddleName");
-                DataGridTextColumn MName = new DataGridTextColumn();
-                MName.Header = "Middle Name";
-                MName.Binding = MNameBinding;
-                ColumnCollection.Add(MName);
+            switch (LookUpName.ToLower())
+            {
+                case "zipcodesearch":
+                    System.Windows.Data.Binding bindings = new System.Windows.Data.Binding("ZipCode");
+                    DataGridTextColumn s = new DataGridTextColumn();
+                    s.Header = "Zip Code";
+                    s.Binding = bindings;
+                    ColumnCollection.Add(s);
 
-                System.Windows.Data.Binding LNameBinding = new System.Windows.Data.Binding("LastName");
-                DataGridTextColumn LName = new DataGridTextColumn();
-                LName.Header = "Last Name";
-                LName.Binding = LNameBinding;
-                ColumnCollection.Add(LName);
+                    System.Windows.Data.Binding bindings2 = new System.Windows.Data.Binding("CityCode");
+                    DataGridTextColumn s2 = new DataGridTextColumn();
+                    s2.Header = "City";
+                    s2.Binding = bindings2;
+                    ColumnCollection.Add(s2);
+
+                    System.Windows.Data.Binding bindings3 = new System.Windows.Data.Binding("StateCode");
+                    DataGridTextColumn s3 = new DataGridTextColumn();
+                    s3.Header = "State";
+                    s3.Binding = bindings2;
+                    ColumnCollection.Add(s3);
+
+                    System.Windows.Data.Binding bindings4 = new System.Windows.Data.Binding("CountryCode");
+                    DataGridTextColumn s4 = new DataGridTextColumn();
+                    s4.Header = "Country";
+                    s4.Binding = bindings4;
+                    ColumnCollection.Add(s4);
+                    break;
+
+                case "ermemployee":
+                    System.Windows.Data.Binding bindings5 = new System.Windows.Data.Binding("EmployeeID");
+                    DataGridTextColumn s5 = new DataGridTextColumn();
+                    s5.Header = "Employee (#)";
+                    s5.Binding = bindings5;
+                    ColumnCollection.Add(s5);
+
+                    System.Windows.Data.Binding bindings6 = new System.Windows.Data.Binding("Name");
+                    DataGridTextColumn s6 = new DataGridTextColumn();
+                    s6.Header = "Employee Name";
+                    s6.Binding = bindings5;
+                    ColumnCollection.Add(s6);
+
+                    System.Windows.Data.Binding bindings7 = new System.Windows.Data.Binding("OldEmployeeID");
+                    DataGridTextColumn s7 = new DataGridTextColumn();
+                    s7.Header = "Old Employee (#)";
+                    s7.Binding = bindings7;
+                    ColumnCollection.Add(s7);
+                    break;
+
+                case "timeacoountmap":
+                    System.Windows.Data.Binding bindings8 = new System.Windows.Data.Binding("CompanyNo");
+                    DataGridTextColumn s8 = new DataGridTextColumn();
+                    s8.Header = "Company (#)";
+                    s8.Binding = bindings8;
+                    ColumnCollection.Add(s8);
+
+                    System.Windows.Data.Binding bindings9 = new System.Windows.Data.Binding("OldDocumentNo");
+                    DataGridTextColumn s9 = new DataGridTextColumn();
+                    s9.Header = "Old Company (#)";
+                    s9.Binding = bindings9;
+                    ColumnCollection.Add(s9);
+
+                    System.Windows.Data.Binding bindings10 = new System.Windows.Data.Binding("Company Name");
+                    DataGridTextColumn s10 = new DataGridTextColumn();
+                    s10.Header = "Company Name";
+                    s10.Binding = bindings10;
+                    ColumnCollection.Add(s10);
+                    break;
             }
             return ColumnCollection;
         }

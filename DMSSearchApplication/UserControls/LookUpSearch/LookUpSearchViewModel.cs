@@ -169,6 +169,77 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
 
         #endregion
 
+        #region RelayCommand
+        RelayCommand _cancelCommand;
+        RelayCommand _windowKeyDown;
+        RelayCommand _windowPreviewKeyDown;
+
+        public ICommand CancelCommand
+        {
+            get
+            {
+                if (_cancelCommand == null)
+                    _cancelCommand = new RelayCommand(param => this.CancelCommandExecute(), param => this.CanCancelCommandExecute());
+
+                return _cancelCommand;
+            }
+        }
+
+        private bool CanCancelCommandExecute()
+        {
+            return true;
+        }
+
+        private object CancelCommandExecute()
+        {
+            ApplicationLevelConstants.SearchResult = null;
+            CurrentWindow.Close();            
+            return true;
+        }
+
+        public ICommand WindowKeyDown
+        {
+            get
+            {
+                if (_windowKeyDown == null)
+                    _windowKeyDown = new RelayCommand(param => this.ExecuteWindowKeyDown(), param => this.CanExecuteWindowKeyDown());
+                return _windowKeyDown;
+            }
+        }
+
+        private bool CanExecuteWindowKeyDown()
+        {
+            return true;
+        }
+
+        private object ExecuteWindowKeyDown()
+        {
+            return true;
+        }
+
+        public ICommand WindowPreviewKeyDown
+        {
+            get
+            {
+                if (_windowPreviewKeyDown == null)
+                    _windowPreviewKeyDown = new RelayCommand(param => this.ExecuteWindowPreviewKeyDown(param), param => this.CanExecuteWindowPreviewKeyDown());
+                return _windowPreviewKeyDown;
+            }
+        }
+
+        private bool CanExecuteWindowPreviewKeyDown()
+        {
+            return true;
+        }
+
+        private void ExecuteWindowPreviewKeyDown(object obj)
+        {
+            //if (WindowKeyEvent.Key == System.Windows.Input.Key.Escape)
+            CurrentWindow.Close();
+        }
+
+        #endregion
+
         #region Constructor
         public LookUpSearchViewwModel(string ViewName, string LooUpName, string GridName, string SearchType, string ColumnName, string searchWindowName = "", string searchGridName = "", string ScreenName = "", bool isShowInActiveRecords = false)
         {
