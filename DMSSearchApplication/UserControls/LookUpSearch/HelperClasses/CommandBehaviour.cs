@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,58 +11,16 @@ using System.Windows.Input;
 namespace DMSSearchApplication.UserControls.LookUpSearch.HelperClasses
 {
     public class CommandBehaviour
-    {
-        #region DependencyProperty Grid PreviewKeyDown
-        public static readonly DependencyProperty PreviewKeyDownProperty = DependencyProperty.RegisterAttached("PreviewKeyDown", typeof(CommonDelegateCommand),
-         typeof(CommandBehaviour), new PropertyMetadata(PropertyPreviewKeyDown));
-        #endregion
+    {  
+        #region WindowLoaded
 
-        #region PropertyMetadata for SelectionChanged DependencyProperty
-        public static void PropertyPreviewKeyDown(DependencyObject depObj, DependencyPropertyChangedEventArgs args)
-        {
-            if (depObj != null && depObj is DataGrid)
-            {
-                DataGrid DataGrid = depObj as DataGrid;
-                DataGrid.PreviewKeyDown += DataGrid_PreviewKeyDown;
-            }
-        }
-
-        static void DataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (sender is DataGrid)
-            {
-                DataGrid DataGrid = (DataGrid)sender;
-                if (DataGrid != null)
-                {
-                    CommonDelegateCommand command = DataGrid.GetValue(PreviewKeyDownProperty) as CommonDelegateCommand;
-                    if (command != null)
-                        command.Execute(sender, e);
-                }
-            }
-        }
-
-        #region Get Set DependencyProperty
-        public static ICommand GetPreviewKeyDown(UIElement element)
-        {
-            return (ICommand)element.GetValue(WindowLoadedProperty);
-        }
-
-        public static void SetPreviewKeyDown(UIElement element, ICommand command)
-        {
-            element.SetValue(WindowLoadedProperty, command);
-        }
-
-        #endregion
-
-        #endregion
-
-        #region DependencyProperty Declaration
+        #region DependencyProperty WindowLoaded Declaration
         public static readonly DependencyProperty WindowLoadedProperty = DependencyProperty.RegisterAttached("WindowLoaded", typeof(CommonDelegateCommand),
-        typeof(CommandBehaviour), new PropertyMetadata(PropertyChangedSelectionChanged));
+        typeof(CommandBehaviour), new PropertyMetadata(PropertyWindowLoaded));
         #endregion
 
-        #region PropertyMetadata for SelectionChanged DependencyProperty
-        public static void PropertyChangedSelectionChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs args)
+        #region PropertyMetadata for WindowLoaded DependencyProperty
+        public static void PropertyWindowLoaded(DependencyObject depObj, DependencyPropertyChangedEventArgs args)
         {
             if (depObj != null && depObj is Window)
             {
@@ -86,7 +45,7 @@ namespace DMSSearchApplication.UserControls.LookUpSearch.HelperClasses
 
         #endregion
 
-        #region Get Set DependencyProperty
+        #region Get Set WindowLoaded Property
         public static ICommand GetWindowLoaded(UIElement element)
         {
             return (ICommand)element.GetValue(WindowLoadedProperty);
@@ -96,6 +55,8 @@ namespace DMSSearchApplication.UserControls.LookUpSearch.HelperClasses
         {
             element.SetValue(WindowLoadedProperty, command);
         }
+
+        #endregion
 
         #endregion
     }

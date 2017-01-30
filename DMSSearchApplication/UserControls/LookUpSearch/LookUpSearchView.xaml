@@ -67,8 +67,7 @@
                 <Button Content="Cancel" Height="23" Name="btnCancel" Click="btnCancel_Click" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" TabIndex="125" />
                 <Button Content="Search"
                         Height="23"
-                        Name="btnSearch"
-                        Click="btnSearch_Click"                        
+                        Name="btnSearch" Command="{Binding SearchButtonClickCommand}"                        
                         VerticalAlignment="Top"
                         IsDefault="True"
                         TabIndex="120" HorizontalAlignment="Center" />
@@ -79,13 +78,15 @@
         <Grid Grid.Row="5" >
 
             <ScrollViewer Name="scrlviewer" VerticalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Disabled"></ScrollViewer>
-            <DataGrid Name="gridData" ItemsSource="{Binding dtData}" Visibility="Visible" ToolTip="{Binding GridToolTip}"  AutoGenerateColumns="True"   
+            <DataGrid Name="gridData" ItemsSource="{Binding dtData}" Visibility="Visible" ToolTip="{Binding GridToolTip}"  AutoGenerateColumns="False"   
                       MouseDoubleClick="gridData_MouseDoubleClick" IsReadOnly="True" 
                       VirtualizingStackPanel.VirtualizationMode="Standard" HorizontalAlignment="Stretch"
                       ScrollViewer.ScrollChanged="gridData_ScrollChanged" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
-                      HeadersVisibility="Column" Helper:CommandBehaviour.PreviewKeyDown="{Binding DataGridPreviewKeyDown}"
+                      HeadersVisibility="Column" Helper:DataGridCommonBehavior.PreviewKeyDown="{Binding DataGridPreviewKeyDown}"
+                      Helper:DataGridCommonBehavior.BindableColumns="{Binding ColumnCollection}" Helper:DataGridCommonBehavior.SelectFirstRow="{Binding SelectFirstRow}"  
+                      Helper:DataGridCommonBehavior.SelectionChanged="{Binding DataGridSelectionChanged}"
                 TextBlock.TextAlignment="Center" >
-
+                
                 <!--PreviewKeyDown="gridData_PreviewKeyDown_1"-->
                 <!--<InteractivityCommand:Interaction.Triggers>
                     <InteractivityCommand:EventTrigger EventName="PreviewKeyDown">
@@ -104,7 +105,7 @@
 
         <!-- Row 4 -->
         <StackPanel  Grid.Row="6" Orientation="Horizontal" VerticalAlignment="Stretch" Visibility="Visible" Margin="5,5,0,5">
-            <Button Content="Ok" Width="75" Height="23" Name="btnOk" Click="btnOk_Click" TabIndex="130" />
+            <Button Content="Ok" Width="75" Height="23" Name="btnOk" Command="{Binding OkButtonClickCommand}" TabIndex="130" />
         </StackPanel>
         <!--<Grid Name="grid21" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,5,0,0"
               Visibility="Collapsed">
