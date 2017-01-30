@@ -1,12 +1,14 @@
 ﻿using DMSSearchApplication.UserControls.LookUpSearch.HelperClasses;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
@@ -29,7 +31,21 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
         public string _ColumnName = string.Empty;
         Window WindowEvent=null;
         KeyEventArgs WindowKeyEvent = null;
-       
+
+        private ObservableCollection<DataGridColumn> _columnCollection = new ObservableCollection<DataGridColumn>();
+        public ObservableCollection<DataGridColumn> ColumnCollection
+        {
+            get
+            {
+                return this._columnCollection;
+            }
+            set
+            {
+                _columnCollection = value;
+                OnPropertyChanged("ColumnCollection");
+            }
+        }
+        //public DataGrid gridData = new DataGrid();
         #endregion
 
         #region Binding Properties
@@ -58,6 +74,19 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
                 _dtData = value;
             }
         }
+
+        private DataRow _selectedItem;
+
+        public DataRow SelectedItem
+        {
+            get { return _selectedItem; }
+            set
+            {
+                _selectedItem = value;
+                OnPropertyChanged("SelectedItem");
+            }
+        }
+        
 
         private int _TotalReocords;
         public int TotalReocords
@@ -178,7 +207,7 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
         #endregion
 
         #region Constructor
-        public LookUpSearchViewwModel(string FormName, string GridName, string SearchType, string ColumnName, string searchWindowName = "", string searchGridName = "", string ScreenName = "", bool isShowInActiveRecords = false)
+        public LookUpSearchViewwModel(string FormName, string GridName, string SearchType, string ColumnName,string CurrViewName, string searchWindowName = "", string searchGridName = "", string ScreenName = "", bool isShowInActiveRecords = false)
         {
             _FormName = FormName;
             _SearchType = SearchType;
@@ -186,6 +215,9 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
             _ColumnName = ColumnName;
             InitializeCommonCMDS();
             _DataGridPreviewKeyDown = new CommonDelegateCommand(DataGridPreviewKeyDownM);
+            GridColumnsTemplates obj = new GridColumnsTemplates();
+            ColumnCollection = obj.FindColumns(FormName, CurrViewName);
+            OnPropertyChanged("ColumnCollection");
         }
         #endregion
 
@@ -261,6 +293,8 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
                 dtData = ds;
                 OnPropertyChanged("dtData");
             }
+
+            SelectedItem = dtData.Rows[0];
             OnPropertyChanged("TotalReocords");
             #endregion
             
@@ -272,7 +306,7 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
             }
             #endregion
 
-            //Dispatcher.BeginInvoke(new Action(() =>
+            //System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             //{
             //    foreach (object obj in gridData.Items)
             //    {
@@ -287,6 +321,7 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
             //    }
 
             //}), System.Windows.Threading.DispatcherPriority.Normal);
+            
 
             #region Hide Loading Icon
             LoadIconVisibility = System.Windows.Visibility.Hidden;

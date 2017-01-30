@@ -32,8 +32,11 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
         #region Declaration
         public delegate void SearchHandler(args obj);
         public event SearchHandler OnSearch;
-        public BaseViewModel ObjBaseVM = new BaseViewModel();
+        public BaseViewModel ObjBaseVM;// = new BaseViewModel();
+        public string _FormName;
         LookUpSearchViewwModel LookUpSearchViewwModel = null;
+
+
         #endregion
 
         #region Constructor
@@ -48,14 +51,13 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
 
         }
 
-        public LookUpSearchView(string FormName, string GridName, string SearchType, string ColumnName,string CurrViewName, string searchWindowName = "", string searchGridName = "", string ScreenName = "", bool isShowInActiveRecords = false)
+        public LookUpSearchView(string FormName, string GridName, string SearchType, string ColumnName, string CurrViewName, string searchWindowName = "", string searchGridName = "", string ScreenName = "", bool isShowInActiveRecords = false)
         {
+            ObjBaseVM = new BaseViewModel();
             InitializeComponent();
-            LookUpSearchViewwModel = new LookUpSearchViewwModel(FormName, GridName, SearchType, ColumnName, searchWindowName, searchGridName, ScreenName, isShowInActiveRecords);
+            LookUpSearchViewwModel = new LookUpSearchViewwModel(FormName, GridName, SearchType, ColumnName, CurrViewName, searchWindowName, searchGridName, ScreenName, isShowInActiveRecords);
             //ResetSearch(FormName, GridName, true);
-            GridColumnsTemplates obj = new GridColumnsTemplates();
-            ColumnCollection = obj.FindColumns(FormName, CurrViewName);
-            ObjBaseVM.OnPropertyChanged("ColumnCollection");
+            _FormName = FormName;
             DataContext = LookUpSearchViewwModel;
 
         }
@@ -89,7 +91,32 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
+            //foreach (object obj in gridData.Items)
+            //{
+            //    gridData.SelectedItem = obj;
+            //    if (gridData.Columns.Count > 0)
+            //    {
+            //        DataGridCellInfo cellInfo = new DataGridCellInfo(gridData.SelectedItem, gridData.Columns[0]);
+            //        gridData.CurrentCell = cellInfo;
+            //    }
 
+            //    break;
+            //}
+
+            //if (gridData.SelectedItem != null)
+            //{
+            //    DataRow row = (DataRow)((DataRowView)gridData.SelectedItem).Row;
+            //    if (_FormName.ToLower() == "ZipCodeSearch".ToLower())
+            //    {
+            //        OnSearch(new args
+            //        {
+            //            obj = new ZipCode
+            //            {
+            //                City = row["CityName"].ToString()
+            //            }
+            //        });
+            //    }
+            //}
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -120,19 +147,35 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
         }
         #endregion
 
-        private ObservableCollection<DataGridColumn> _columnCollection = new ObservableCollection<DataGridColumn>();
-        public ObservableCollection<DataGridColumn> ColumnCollection
+    }
+
+    public class ZipCode
+    {
+        //private int _id;
+        //public int id
+        //{
+        //    get
+        //    {
+        //        return _id;
+        //    }
+        //    set
+        //    {
+        //        _id = value;
+        //    }
+
+        //}
+        private string _City;
+        public string City
         {
             get
             {
-                return this._columnCollection;
+                return _City;
             }
             set
             {
-                _columnCollection = value;
-                ObjBaseVM.OnPropertyChanged("ColumnCollection");
+                _City = value;
             }
-        }
 
+        }
     }
 }

@@ -5,7 +5,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"         
         xmlns:Helper="clr-namespace:DMSSearchApplication.UserControls.LookUpSearch.HelperClasses" 
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-         xmlns:si="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
+        xmlns:si="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
+        xmlns:local="clr-namespace:DMSSearchApplication"  
         mc:Ignorable="d" Title="Phoenix DMS Search" Height="595"  MinHeight="500" MinWidth="650"
         Background="White"  
     Helper:CommandBehaviour.WindowLoaded="{Binding WindowLoaded}"  WindowStartupLocation="CenterScreen" ShowInTaskbar="False" ResizeMode="CanResize"  
@@ -37,7 +38,7 @@
         Duration="0:0:1"
         RepeatBehavior="Forever" />
         </Storyboard>
-
+        
     </Window.Resources>
 
 
@@ -72,7 +73,7 @@
                     <ColumnDefinition Width="75" />
                 </Grid.ColumnDefinitions>
                 <Button Content="Cancel" 
-                        Height="23" Name="btnCancel"  Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" TabIndex="125" 
+                        Height="23" Name="btnCancel"  Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" TabIndex="125" IsCancel="True"
                         Command="{Binding CancelCommand}"
                         />
                 <!--Click="btnCancel_Click"-->
@@ -94,7 +95,10 @@
             </Grid.ColumnDefinitions>
 
             <ScrollViewer Name="scrlviewer" VerticalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Disabled" Grid.ColumnSpan="2"></ScrollViewer>
-            <DataGrid Name="gridData"  Visibility="Visible" ToolTip="{Binding GridToolTip}"  AutoGenerateColumns="True"   
+            <DataGrid x:Name="gridData"  
+                      ItemsSource="{Binding dtData}"
+                      SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Visibility="Visible" ToolTip="{Binding GridToolTip}"  AutoGenerateColumns="True"   
                       MouseDoubleClick="gridData_MouseDoubleClick" IsReadOnly="True" 
                       VirtualizingStackPanel.VirtualizationMode="Standard" HorizontalAlignment="Stretch"
                       ScrollViewer.ScrollChanged="gridData_ScrollChanged" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
@@ -123,7 +127,7 @@
 
         <!-- Row 4 -->
         <StackPanel  Grid.Row="6" Orientation="Horizontal" VerticalAlignment="Stretch" Visibility="Visible" Margin="5,5,0,5">
-            <Button Content="Ok" Width="75" Height="23" Name="btnOk" Click="btnOk_Click" TabIndex="130" />
+            <Button Content="Ok" Width="75" Height="23" Name="btnOk" Click="btnOk_Click" TabIndex="130" Command="{Binding OKCommand}" />
         </StackPanel>
         <!--<Grid Name="grid21" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,5,0,0"
               Visibility="Collapsed">
