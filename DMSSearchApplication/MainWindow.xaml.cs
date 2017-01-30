@@ -30,7 +30,7 @@ namespace DMSSearchApplication
 
         private void btnEmployeeName_Click(object sender, RoutedEventArgs e)
         {
-            LookUpSearchView objEmployee = new LookUpSearchView("ERMEmployee", "", "Normal", "EmployeeID");
+            LookUpSearchView objEmployee = new LookUpSearchView(this.Name, "ERMEmployee", "", "Normal", "FirstName");
             //objEmployee.OnSearch += new LookUpSearchView.SearchHandler(objEmployee_OnSearch);
             SetOwner(objEmployee);
             objEmployee.ShowDialog();

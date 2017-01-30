@@ -40,6 +40,12 @@ namespace DMSSearchApplication.UserControls.LookUpSearch.HelperClasses
             dt.Columns.Add("MiddleName", typeof(string));
             dt.Columns.Add("LastName", typeof(string));
 
+            DataRow dr15 = dt.NewRow();
+            dr15["FirstName"] = "Virendra15";
+            dr15["MiddleName"] = "Narendra15";
+            dr15["LastName"] = "Lad15";
+            dt.Rows.Add(dr15);
+
             while (i > 0)
             {
                 DataRow dr = dt.NewRow();

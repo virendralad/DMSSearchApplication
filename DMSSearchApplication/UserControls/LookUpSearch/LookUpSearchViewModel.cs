@@ -1,12 +1,14 @@
 ﻿using DMSSearchApplication.UserControls.LookUpSearch.HelperClasses;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 
@@ -16,13 +18,12 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
     {
         public static DataTable SearchResult { get; set; }
     }
-
-
     public class LookUpSearchViewwModel : BaseViewModel, INotifyPropertyChanged
     {
         #region Global Variable
         public bool IsShowInActiveRecords;
-        public string _FormName = string.Empty;
+        public string _LooUpName = string.Empty;
+        public string _ViewName = string.Empty;
         public string _SearchType = string.Empty;
         public string _ColumnName = string.Empty;
         #endregion
@@ -51,6 +52,20 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
             set
             {
                 _dtData = value;
+            }
+        }
+
+        private bool _SelectFirstRow;
+        public bool SelectFirstRow
+        {
+            get
+            {
+                return _SelectFirstRow;
+            }
+            set
+            {
+                _SelectFirstRow = value;
+                OnPropertyChanged("SelectFirstRow");
             }
         }
 
@@ -92,30 +107,126 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
                 _LoadIconVisibility = value;
             }
         }
+
+        private DataRow _CurrentSelectedRow;
+        public DataRow CurrentSelectedRow
+        {
+            get
+            {
+                return _CurrentSelectedRow;
+            }
+            set
+            {
+                _CurrentSelectedRow = value;
+            }
+        }
+
+
+        private Window _CurrentWindow;
+        public Window CurrentWindow
+        {
+            get { return _CurrentWindow; }
+            set { _CurrentWindow = value; }
+        }
         #endregion
 
         #region Commands
-        public CommonDelegateCommand _DataGridPreviewKeyDown;
+
+        private CommonDelegateCommand _DataGridSelectionChanged;
+        public CommonDelegateCommand DataGridSelectionChanged
+        {
+            get { return _DataGridSelectionChanged; }
+        }
+
+        private CommonDelegateCommand _DataGridPreviewKeyDown;
         public CommonDelegateCommand DataGridPreviewKeyDown
         {
             get { return _DataGridPreviewKeyDown; }
         }
+
+        RelayCommand _SearchButtonClickCommand;
+        public ICommand SearchButtonClickCommand
+        {
+            get
+            {
+                return _SearchButtonClickCommand;
+            }
+        }
+
+        RelayCommand _OkButtonClickCommand;
+        public RelayCommand OkButtonClickCommand
+        {
+            get
+            {
+                return _OkButtonClickCommand;
+            }
+        }
+
+        private Boolean CanTemplateCommandExecute()
+        {
+            return true;
+        }
+
         #endregion
 
-
         #region Constructor
-        public LookUpSearchViewwModel(string FormName, string GridName, string SearchType, string ColumnName, string searchWindowName = "", string searchGridName = "", string ScreenName = "", bool isShowInActiveRecords = false)
+        public LookUpSearchViewwModel(string ViewName, string LooUpName, string GridName, string SearchType, string ColumnName, string searchWindowName = "", string searchGridName = "", string ScreenName = "", bool isShowInActiveRecords = false)
         {
-            _FormName = FormName;
+            _LooUpName = LooUpName;
+            _ViewName = ViewName;
             _SearchType = SearchType;
             IsShowInActiveRecords = isShowInActiveRecords;
             _ColumnName = ColumnName;
-            InitializeCommonCMDS();
-            _DataGridPreviewKeyDown = new CommonDelegateCommand(DataGridPreviewKeyDownM);
+
+            InitializeCommands();
+        }
+        #endregion
+
+
+        #region Observable Collection
+        private ObservableCollection<DataGridColumn> _columnCollection = new ObservableCollection<DataGridColumn>();
+        public ObservableCollection<DataGridColumn> ColumnCollection
+        {
+            get
+            {
+                return this._columnCollection;
+            }
+            set
+            {
+                _columnCollection = value;
+                OnPropertyChanged("ColumnCollection");
+            }
         }
         #endregion
 
         #region Methods
+
+        private void OkButtonClick()
+        {
+            if (CurrentSelectedRow != null && CurrentSelectedRow[_ColumnName] != null)
+            {
+                string ValueToShow = CurrentSelectedRow[_ColumnName].ToString();
+            }
+        }
+
+        protected void SearchButtonClick()
+        {
+            btnSearchAsync_Click(CurrentWindow);
+        }
+
+        protected void DataGridSelectionChangedM(object sender, object Event)
+        {
+            if (sender is DataGrid && (sender as DataGrid).SelectedItem is DataRowView)
+            {
+                DataRowView drView = (DataRowView)(sender as DataGrid).SelectedItem;
+                if (drView != null && drView.Row != null)
+                {
+                    CurrentSelectedRow = drView.Row;
+                    OnPropertyChanged("CurrentSelectedRow");
+                }
+            }
+        }
+
         protected void DataGridPreviewKeyDownM(object sender, object Event)
         {
             if (Event is KeyEventArgs)
@@ -125,7 +236,7 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
                 {
                     if (e.Key == System.Windows.Input.Key.Enter)
                     {
-                        //btnOk_Click(null, null);
+                        //btnOk_Click(null, null); 
                         e.Handled = true;
                     }
                 }
@@ -134,29 +245,38 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
         protected override void OnWindowLoaded(object sender, object Event)
         {
             base.OnWindowLoaded(sender, Event);
-            Window Window = null;
             if (sender is Window)
-                Window = sender as Window;
+                CurrentWindow = sender as Window;
 
-            if (Window != null)
+            if (CurrentWindow != null)
             {
-                (Window.FindResource("WaitStoryboard") as Storyboard).Begin();
+                (CurrentWindow.FindResource("WaitStoryboard") as Storyboard).Begin();
                 LoadIconVisibility = System.Windows.Visibility.Hidden;
                 OnPropertyChanged("LoadIconVisibility");
                 if (_SearchType == "advance")
                 {
-                    Window.DialogResult = true;
-                    Window.Close();
+                    CurrentWindow.DialogResult = true;
+                    CurrentWindow.Close();
                 }
-                btnSearchAsync_Click(Window);
+                btnSearchAsync_Click(CurrentWindow);
             }
+
+        }
+
+        protected override void InitializeCommands()
+        {
+            base.InitializeCommands();
+            _DataGridPreviewKeyDown = new CommonDelegateCommand(DataGridPreviewKeyDownM);
+            _OkButtonClickCommand = new RelayCommand(param => OkButtonClick());
+            _SearchButtonClickCommand = new RelayCommand(param => SearchButtonClick());
+            _DataGridSelectionChanged = new CommonDelegateCommand(DataGridSelectionChangedM);
         }
 
         public void GetsearchData(Window Window)
         {
             //MessageBoxManager.Unregister();
             Window.Height = 595;
-            DataTable dtSearchData = LookUpSearchCommonFuntions.GetsearchData(_SearchType, _FormName, IsShowInActiveRecords);
+            DataTable dtSearchData = LookUpSearchCommonFuntions.GetsearchData(_SearchType, _LooUpName, IsShowInActiveRecords);
 
             if (dtSearchData != null)
                 ApplicationLevelConstants.SearchResult = dtSearchData;
@@ -175,7 +295,7 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
             Task<Dictionary<string, object>> Result = null;
             await Task.Run(() =>
             {
-                Result = LookUpSearchCommonFuntions.GetGridData(_FormName, _SearchType, IsShowInActiveRecords);
+                Result = LookUpSearchCommonFuntions.GetGridData(_LooUpName, _SearchType, IsShowInActiveRecords);
             });
             TotalReocords = (int)Result.Result["TotalReocords"];
             ds = (DataTable)Result.Result["DataSet"];
@@ -195,6 +315,9 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
             }
             #endregion
 
+            SelectFirstRow = true;
+            OnPropertyChanged("SelectFirstRow");
+
             #region Hide Loading Icon
             LoadIconVisibility = System.Windows.Visibility.Hidden;
             OnPropertyChanged("LoadIconVisibility");
@@ -204,32 +327,12 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
 
         private void btnSearchAsync_Click(Window Window)
         {
+            GridColumnsTemplates Temp = new GridColumnsTemplates();
+            ColumnCollection = Temp.FindColumns(_LooUpName, _ViewName);
             GetsearchData(Window);
-
             GetGridData(Window);
-            //------------------------------------------------------------------------------------------------------------------------
-
-
-            //TODO Viren
-            //Dispatcher.BeginInvoke(new Action(() =>
-            //{
-            //    // gridData.Focus();
-            //    foreach (object obj in gridData.Items)
-            //    {
-            //        gridData.SelectedItem = obj;
-            //        if (gridData.Columns.Count > 0)
-            //        {
-            //            DataGridCellInfo cellInfo = new DataGridCellInfo(gridData.SelectedItem, gridData.Columns[0]);
-            //            //set the cell to be the active one
-            //            gridData.CurrentCell = cellInfo;
-            //        }
-
-            //        break;
-            //    }
-
-            //}), System.Windows.Threading.DispatcherPriority.Normal);
-
-
+            SelectFirstRow = false;
+            OnPropertyChanged("SelectFirstRow");
         }
         #endregion
     }

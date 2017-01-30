@@ -57,6 +57,8 @@
     <Compile Include="UserControls\LookUpSearch\HelperClasses\CommandBehaviour.cs" />
     <Compile Include="UserControls\LookUpSearch\HelperClasses\CommonDelegateCommand.cs" />
     <Compile Include="UserControls\LookUpSearch\HelperClasses\CommonHelperClasses.cs" />
+    <Compile Include="UserControls\LookUpSearch\HelperClasses\DataGridCommonBehavior.cs" />
+    <Compile Include="UserControls\LookUpSearch\HelperClasses\GridColumnsTemplates.cs" />
     <Compile Include="UserControls\LookUpSearch\HelperClasses\LookUpSearchCommonFuntions.cs" />
     <Compile Include="UserControls\LookUpSearch\LookUpSearchView.xaml.cs">
       <DependentUpon>LookUpSearchView.xaml</DependentUpon>

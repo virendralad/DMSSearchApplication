@@ -46,14 +46,14 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
 
         }
 
-        public LookUpSearchView(string FormName, string GridName, string SearchType, string ColumnName, string searchWindowName = "", string searchGridName = "", string ScreenName = "", bool isShowInActiveRecords = false)
+        public LookUpSearchView(string ViewName, string LooUpName, string GridName, string SearchType, string ColumnName, string searchWindowName = "", string searchGridName = "", string ScreenName = "", bool isShowInActiveRecords = false)
         {
             InitializeComponent();
-            LookUpSearchViewwModel = new LookUpSearchViewwModel(FormName, GridName, SearchType, ColumnName, searchWindowName, searchGridName, ScreenName, isShowInActiveRecords);
+            LookUpSearchViewwModel = new LookUpSearchViewwModel(ViewName, LooUpName, GridName, SearchType, ColumnName, searchWindowName, searchGridName, ScreenName, isShowInActiveRecords);
             //ResetSearch(FormName, GridName, true);
             DataContext = LookUpSearchViewwModel;
-
         }
+
         //public void ResetSearch(string formName, string gridName, bool RunAsync = false)
         //{
         //    List<AdvancedSearchControlLibrary.clsItems> lstFillColumns = new List<AdvancedSearchControlLibrary.clsItems>();
@@ -82,10 +82,10 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
 
         #region Events
 
-        private void btnOk_Click(object sender, RoutedEventArgs e)
-        {
+        //private void btnOk_Click(object sender, RoutedEventArgs e)
+        //{
 
-        }
+        //}
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
@@ -93,10 +93,6 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
             this.Close();
         }
 
-        private void btnSearch_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
         int totalRecord = 0;
         private void gridData_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -113,6 +109,7 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
 
         }
         #endregion
+        
 
         //public List<clsItems> dtFillData
         //{

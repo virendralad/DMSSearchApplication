@@ -16,13 +16,17 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
         {
             if (PropertyChanged != null)
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
+                PropertyChanged(this, new PropertyChangedEventArgs(property)); 
             }
         }
         #endregion
 
         #region Initialize Common Commands
-        protected virtual void InitializeCommonCMDS()
+        /// <summary>
+        /// VNL : Use this method to initialize commands,Global commands can define in BaseViewModel.
+        ///       Override this to initialize from your Child View Model.  
+        /// </summary>
+        protected virtual void InitializeCommands()
         {
             _WindowLoaded = new CommonDelegateCommand(OnWindowLoaded);
         }

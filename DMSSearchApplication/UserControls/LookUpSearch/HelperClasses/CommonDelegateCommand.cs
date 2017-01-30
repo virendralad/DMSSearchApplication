@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,11 +24,12 @@ namespace DMSSearchApplication.UserControls.LookUpSearch.HelperClasses
         {
             _ControlEvent = ExecuteControlEvent;
         }
-        public bool CanExecute(object parameter)
+
+
+
+        public bool CanExecute(object parameters)
         {
-            if (parameter != null)
-                return true;
-            else return false;
+            return true;
         }
 
         public event EventHandler CanExecuteChanged;
@@ -39,6 +41,43 @@ namespace DMSSearchApplication.UserControls.LookUpSearch.HelperClasses
         public void Execute(object Sender, object EventArgs)
         {
             _ControlEvent.Invoke(Sender, EventArgs);
+        }
+    }
+
+    public class RelayCommand : ICommand
+    {
+        readonly Action<object> _execute;
+        readonly Predicate<object> _canExecute;
+
+        public RelayCommand(Action<object> execute)
+            : this(execute, null)
+        {
+        }
+
+        public RelayCommand(Action<object> execute, Predicate<object> canExecute)
+        {
+            if (execute == null)
+                throw new ArgumentNullException("execute");
+
+            _execute = execute;
+            _canExecute = canExecute;
+        }
+
+        [DebuggerStepThrough]
+        public bool CanExecute(object parameters)
+        {
+            return _canExecute == null ? true : _canExecute(parameters);
+        }
+
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+
+        public void Execute(object parameters)
+        {
+            _execute(parameters);
         }
     }
 }
