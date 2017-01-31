@@ -31,36 +31,55 @@ namespace DMSSearchApplication
 
         private void btnEmployeeName_Click(object sender, RoutedEventArgs e)
         {
-            LookUpSearchView objEmployee = new LookUpSearchView(this.Name, "ermemployee", "Normal", "EmployeeID", "Name");
-            //objEmployee.OnSearch += new LookUpSearchView.SearchHandler(objEmployee_OnSearch);
+            LookUpSearchView objEmployee = new LookUpSearchView(ViewName.Employee, LookUpName.ERMEmployee, "", "Normal", "Name");
+            txtEmployeeName.DataContext = objEmployee.DataContext;
             SetOwner(objEmployee);
             objEmployee.ShowDialog();
-        }
 
-        void objEmployee_OnSearch(args obj)
-        {
-        }
-
-
-        public static void SetOwner(System.Windows.Window objWD)
-        {
-            WindowInteropHelper child = new WindowInteropHelper(objWD);
-            WindowInteropHelper parent = new WindowInteropHelper(System.Windows.Application.Current.MainWindow);
-            child.Owner = parent.Handle;
+            // Need to confirm with ravi.
+            if (objEmployee.DataContext is ISelectedRow)
+            {
+                System.Data.DataRow dr = (objEmployee.DataContext as ISelectedRow).CurrentSelectedRow;
+                txtId.Text = dr["EmployeeID"].ToString();
+            }
         }
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            LookUpSearchView objEmployee = new LookUpSearchView("ZipCodeSearch", "txtZipCode", "normal", "ZipCode", "Employee");
+            LookUpSearchView objEmployee = new LookUpSearchView(ViewName.Employee, LookUpName.ZipCodeSearch, "", "Normal", "ZipCode");
+            txtZipCode.DataContext = objEmployee.DataContext;
             SetOwner(objEmployee);
             objEmployee.ShowDialog();
         }
 
         private void btnId_Click(object sender, RoutedEventArgs e)
         {
-            LookUpSearchView objEmployee = new LookUpSearchView("ZipCodeSearch", "txtZipCode", "normal", "ZipCode", "Employee");
+            LookUpSearchView objEmployee = new LookUpSearchView(ViewName.Employee, LookUpName.ERMEmployee, "Normal", "EmployeeID", "EmployeeID");
+            txtId.DataContext = objEmployee.DataContext;
             SetOwner(objEmployee);
             objEmployee.ShowDialog();
+
+            // Need to confirm with ravi.
+            if (objEmployee.DataContext is ISelectedRow)
+            {
+                System.Data.DataRow dr = (objEmployee.DataContext as ISelectedRow).CurrentSelectedRow;
+                txtEmployeeName.Text = dr["Name"].ToString();
+            }
+        }
+
+        private void SetOwner(System.Windows.Window objWD)
+        {
+            WindowInteropHelper child = new WindowInteropHelper(objWD);
+            WindowInteropHelper parent = new WindowInteropHelper(System.Windows.Application.Current.MainWindow);
+            child.Owner = parent.Handle;
+        }
+
+        private void btnCity_Click(object sender, RoutedEventArgs e)
+        {
+            LookUpSearchView objEmployee = new LookUpSearchView(ViewName.Employee, LookUpName.City, "", "Normal", "City");
+            txtId_City.DataContext = objEmployee.DataContext;
+            SetOwner(objEmployee);
+            objEmployee.ShowDialog();           
         }
     }
 }
