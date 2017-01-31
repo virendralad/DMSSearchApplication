@@ -7,35 +7,21 @@ using System.Threading.Tasks;
 
 namespace DMSSearchApplication.UserControls.LookUpSearch.HelperClasses
 {
-    public class clsData
+    public interface ISelectedRow
     {
-        private DataTable _dtData;
-        public DataTable dtData
-        {
-            get
-            {
-                return _dtData;
-            }
-            set
-            {
-                _dtData = value;
-            }
-        }
-
+        DataRow CurrentSelectedRow { get; set; }
     }
-    public class args
+
+    public enum LookUpName
     {
-        private object _obj;
-        public object obj
-        {
-            get
-            {
-                return _obj;
-            }
-            set
-            {
-                _obj = value;
-            }
-        }
+        ERMEmployee,
+        ZipCodeSearch,
+        City,
+        Srt
+    }
+
+    public enum ViewName
+    {
+         Employee
     }
 }

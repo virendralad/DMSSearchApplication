@@ -28,9 +28,6 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
     public partial class LookUpSearchView : Window
     {
         #region Declaration
-        public delegate void SearchHandler(args obj);
-        public event SearchHandler OnSearch;
-
         LookUpSearchViewwModel LookUpSearchViewwModel = null;
         #endregion
 
@@ -46,12 +43,12 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
 
         }
 
-        public LookUpSearchView(string ViewName, string LooUpName, string GridName, string SearchType, string ColumnName, string searchWindowName = "", string searchGridName = "", string ScreenName = "", bool isShowInActiveRecords = false)
+        public LookUpSearchView(ViewName ViewName, LookUpName LooUpName, string GridName, string SearchType, string ColumnName, string searchWindowName = "", string searchGridName = "", string ScreenName = "", bool isShowInActiveRecords = false)
         {
             InitializeComponent();
             LookUpSearchViewwModel = new LookUpSearchViewwModel(ViewName, LooUpName, GridName, SearchType, ColumnName, searchWindowName, searchGridName, ScreenName, isShowInActiveRecords);
             //ResetSearch(FormName, GridName, true);
-            DataContext = LookUpSearchViewwModel;
+            DataContext = LookUpSearchViewwModel;            
         }
 
         //public void ResetSearch(string formName, string gridName, bool RunAsync = false)
@@ -74,69 +71,22 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
         //}
         #endregion
 
-        #region Methods
+        //#region Events       
 
+        //int totalRecord = 0;         
 
-
-        #endregion
-
-        #region Events
-
-        //private void btnOk_Click(object sender, RoutedEventArgs e)
+        //private void gridData_ScrollChanged(object sender, ScrollChangedEventArgs e)
         //{
 
         //}
-
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
-        {
-            ApplicationLevelConstants.SearchResult = null;
-            this.Close();
-        }
-
-        int totalRecord = 0;
-        private void gridData_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void Window_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-
-        }
-
-        private void gridData_ScrollChanged(object sender, ScrollChangedEventArgs e)
-        {
-
-        }
-        #endregion
+        //#endregion
         
 
         //public List<clsItems> dtFillData
         //{
         //    get;
         //    set;
-        //}
-
-        //private bool PartsStatusUpdate(string Active, long PartsID, long AssociatedPart)
-        //{
-        //    try
-        //    {
-        //        if (Active == "no")
-        //        {
-        //            if (MessageBoxResult.Yes == MessageBox.Show("Do you want to turn the Part Active?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question))
-        //            {
-        //                DMS.AppCommunication.CommunicationService cs = new AppCommunication.CommunicationService();
-        //                cs.PartsMasterActiveInActive_Update(PartsID, AssociatedPart);
-        //                return true;
-        //            }
-        //        }
-        //        return false;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return false;
-        //    }
-        //}
+        //}       
 
     }
 }

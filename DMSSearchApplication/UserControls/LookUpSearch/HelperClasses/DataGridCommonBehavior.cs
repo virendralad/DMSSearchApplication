@@ -92,8 +92,7 @@ namespace DMSSearchApplication.UserControls.LookUpSearch.HelperClasses
          typeof(DataGridCommonBehavior), new UIPropertyMetadata(PropertySelectFirstRow));
         #endregion
 
-        #region PropertyMetadata for Grid CurrentCell DependencyProperty
-        static bool IsDefaultRowSelected = false;
+        #region PropertyMetadata for Grid CurrentCell DependencyProperty        
         public static void PropertySelectFirstRow(DependencyObject source, DependencyPropertyChangedEventArgs e)
         {
             if (source != null && source is DataGrid)

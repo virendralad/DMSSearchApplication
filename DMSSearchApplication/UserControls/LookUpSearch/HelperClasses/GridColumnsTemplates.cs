@@ -14,50 +14,50 @@ namespace DMSSearchApplication.UserControls.LookUpSearch.HelperClasses
         {
         }
 
-        public ObservableCollection<DataGridColumn> FindColumns(string LookUpName, string ViewName)
+        public ObservableCollection<DataGridColumn> FindColumns(LookUpName LookUpName, ViewName ViewName)
         {
             switch (ViewName)
             {
-                case "Employee":
-                    return MainWindow(LookUpName);
+                case HelperClasses.ViewName.Employee:
+                    return Employee(LookUpName);
                 default:
                     return null;
             }
         }
 
-        public ObservableCollection<DataGridColumn> MainWindow(string LookUpName)
+        public ObservableCollection<DataGridColumn> Employee(LookUpName LookUpName)
         {
             ObservableCollection<DataGridColumn> ColumnCollection = new ObservableCollection<DataGridColumn>();
 
-            switch (LookUpName.ToLower())
+            switch (LookUpName)
             {
-                case "zipcodesearch":
+                case HelperClasses.LookUpName.ZipCodeSearch:
                     System.Windows.Data.Binding bindings = new System.Windows.Data.Binding("ZipCode");
                     DataGridTextColumn s = new DataGridTextColumn();
                     s.Header = "Zip Code";
                     s.Binding = bindings;
                     ColumnCollection.Add(s);
 
-                    System.Windows.Data.Binding bindings2 = new System.Windows.Data.Binding("CityCode");
+                    System.Windows.Data.Binding bindings2 = new System.Windows.Data.Binding("City");
                     DataGridTextColumn s2 = new DataGridTextColumn();
                     s2.Header = "City";
                     s2.Binding = bindings2;
                     ColumnCollection.Add(s2);
 
-                    System.Windows.Data.Binding bindings3 = new System.Windows.Data.Binding("StateCode");
+                    System.Windows.Data.Binding bindings3 = new System.Windows.Data.Binding("State");
                     DataGridTextColumn s3 = new DataGridTextColumn();
                     s3.Header = "State";
-                    s3.Binding = bindings2;
+                    s3.Binding = bindings3;
                     ColumnCollection.Add(s3);
 
-                    System.Windows.Data.Binding bindings4 = new System.Windows.Data.Binding("CountryCode");
+                    System.Windows.Data.Binding bindings4 = new System.Windows.Data.Binding("Country");
                     DataGridTextColumn s4 = new DataGridTextColumn();
                     s4.Header = "Country";
                     s4.Binding = bindings4;
                     ColumnCollection.Add(s4);
                     break;
 
-                case "ermemployee":
+                case HelperClasses.LookUpName.ERMEmployee:
                     System.Windows.Data.Binding bindings5 = new System.Windows.Data.Binding("EmployeeID");
                     DataGridTextColumn s5 = new DataGridTextColumn();
                     s5.Header = "Employee (#)";
@@ -67,7 +67,7 @@ namespace DMSSearchApplication.UserControls.LookUpSearch.HelperClasses
                     System.Windows.Data.Binding bindings6 = new System.Windows.Data.Binding("Name");
                     DataGridTextColumn s6 = new DataGridTextColumn();
                     s6.Header = "Employee Name";
-                    s6.Binding = bindings5;
+                    s6.Binding = bindings6;
                     ColumnCollection.Add(s6);
 
                     System.Windows.Data.Binding bindings7 = new System.Windows.Data.Binding("OldEmployeeID");
@@ -77,22 +77,22 @@ namespace DMSSearchApplication.UserControls.LookUpSearch.HelperClasses
                     ColumnCollection.Add(s7);
                     break;
 
-                case "timeacoountmap":
-                    System.Windows.Data.Binding bindings8 = new System.Windows.Data.Binding("CompanyNo");
+                case HelperClasses.LookUpName.City:
+                    System.Windows.Data.Binding bindings8 = new System.Windows.Data.Binding("City");
                     DataGridTextColumn s8 = new DataGridTextColumn();
-                    s8.Header = "Company (#)";
+                    s8.Header = "City";
                     s8.Binding = bindings8;
                     ColumnCollection.Add(s8);
 
-                    System.Windows.Data.Binding bindings9 = new System.Windows.Data.Binding("OldDocumentNo");
+                    System.Windows.Data.Binding bindings9 = new System.Windows.Data.Binding("State");
                     DataGridTextColumn s9 = new DataGridTextColumn();
-                    s9.Header = "Old Company (#)";
+                    s9.Header = "State";
                     s9.Binding = bindings9;
                     ColumnCollection.Add(s9);
 
-                    System.Windows.Data.Binding bindings10 = new System.Windows.Data.Binding("Company Name");
+                    System.Windows.Data.Binding bindings10 = new System.Windows.Data.Binding("Country");
                     DataGridTextColumn s10 = new DataGridTextColumn();
-                    s10.Header = "Company Name";
+                    s10.Header = "Country";
                     s10.Binding = bindings10;
                     ColumnCollection.Add(s10);
                     break;

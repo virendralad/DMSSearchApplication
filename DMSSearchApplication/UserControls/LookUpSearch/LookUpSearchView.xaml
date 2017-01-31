@@ -3,15 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"         
-        xmlns:Helper="clr-namespace:DMSSearchApplication.UserControls.LookUpSearch.HelperClasses"                
+       xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:si="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
+        xmlns:Helper="clr-namespace:DMSSearchApplication.UserControls.LookUpSearch.HelperClasses"  
         mc:Ignorable="d" Title="Phoenix DMS Search" Height="595"  MinHeight="500" MinWidth="650"
         Background="White"
         
     Helper:CommandBehaviour.WindowLoaded="{Binding WindowLoaded}"    
-        WindowStartupLocation="CenterScreen" ShowInTaskbar="False" ResizeMode="CanResize"
-         PreviewKeyDown="Window_PreviewKeyDown">
-    <!--Loaded="Window_Loaded"-->
-
+        WindowStartupLocation="CenterScreen" ShowInTaskbar="False" ResizeMode="CanResize">
 
     <Window.Resources>
         <!--<i:PathConverter x:Key="ImagePathConverter" />-->
@@ -64,7 +63,10 @@
                     <ColumnDefinition Width="75" />
                     <ColumnDefinition Width="75" />
                 </Grid.ColumnDefinitions>
-                <Button Content="Cancel" Height="23" Name="btnCancel" Click="btnCancel_Click" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" TabIndex="125" />
+                <Button Content="Cancel" 
+                        Height="23" Name="btnCancel"  Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" TabIndex="125" IsCancel="True"
+                        Command="{Binding CancelCommand}"
+                        />
                 <Button Content="Search"
                         Height="23"
                         Name="btnSearch" Command="{Binding SearchButtonClickCommand}"                        
@@ -79,20 +81,19 @@
 
             <ScrollViewer Name="scrlviewer" VerticalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Disabled"></ScrollViewer>
             <DataGrid Name="gridData" ItemsSource="{Binding dtData}" Visibility="Visible" ToolTip="{Binding GridToolTip}"  AutoGenerateColumns="False"   
-                      MouseDoubleClick="gridData_MouseDoubleClick" IsReadOnly="True" 
-                      VirtualizingStackPanel.VirtualizationMode="Standard" HorizontalAlignment="Stretch"
-                      ScrollViewer.ScrollChanged="gridData_ScrollChanged" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+                      IsReadOnly="True" VirtualizingStackPanel.VirtualizationMode="Standard" HorizontalAlignment="Stretch"
+                      HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
                       HeadersVisibility="Column" Helper:DataGridCommonBehavior.PreviewKeyDown="{Binding DataGridPreviewKeyDown}"
                       Helper:DataGridCommonBehavior.BindableColumns="{Binding ColumnCollection}" Helper:DataGridCommonBehavior.SelectFirstRow="{Binding SelectFirstRow}"  
                       Helper:DataGridCommonBehavior.SelectionChanged="{Binding DataGridSelectionChanged}"
                 TextBlock.TextAlignment="Center" >
-                
+
                 <!--PreviewKeyDown="gridData_PreviewKeyDown_1"-->
-                <!--<InteractivityCommand:Interaction.Triggers>
-                    <InteractivityCommand:EventTrigger EventName="PreviewKeyDown">
-                        <InteractivityCommand:InvokeCommandAction CommandName="test" />
-                    </InteractivityCommand:EventTrigger>
-                </InteractivityCommand:Interaction.Triggers>-->
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding DataGridMouseDoubleClick}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
 
             </DataGrid>
             <!--<Label Name="Waiting" Content="Wait Data is rendering" Visibility="Hidden"></Label>-->
