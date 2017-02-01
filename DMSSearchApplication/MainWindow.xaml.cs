@@ -32,7 +32,11 @@ namespace DMSSearchApplication
         private void btnEmployeeName_Click(object sender, RoutedEventArgs e)
         {
             LookUpSearchView objEmployee = new LookUpSearchView(ViewName.Employee, LookUpName.ERMEmployee, "", "Normal", "Name");
+            
+
+            // This has beend done fill look up with out creating any extra class and object and handler.
             txtEmployeeName.DataContext = objEmployee.DataContext;
+
             SetOwner(objEmployee);
             objEmployee.ShowDialog();
 
@@ -54,7 +58,7 @@ namespace DMSSearchApplication
 
         private void btnId_Click(object sender, RoutedEventArgs e)
         {
-            LookUpSearchView objEmployee = new LookUpSearchView(ViewName.Employee, LookUpName.ERMEmployee, "Normal", "EmployeeID", "EmployeeID");
+            LookUpSearchView objEmployee = new LookUpSearchView(ViewName.Employee, LookUpName.ERMEmployee, "", "Normal", "EmployeeID");
             txtId.DataContext = objEmployee.DataContext;
             SetOwner(objEmployee);
             objEmployee.ShowDialog();

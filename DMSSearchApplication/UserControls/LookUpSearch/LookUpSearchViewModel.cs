@@ -18,7 +18,7 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
     {
         public static DataTable SearchResult { get; set; }
     }
-   
+
     public class LookUpSearchViewwModel : BaseViewModel, INotifyPropertyChanged, ISelectedRow
     {
         #region Global Variable
@@ -37,13 +37,11 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
             _SearchType = SearchType;
             IsShowInActiveRecords = isShowInActiveRecords;
             _ColumnName = ColumnName;
-
-            InitializeCommands();
         }
         #endregion
 
-        #region Binding Properties       
-        
+        #region Binding Properties
+
         private DataTable _dtData;
         public DataTable dtData
         {
@@ -150,13 +148,23 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
         private CommonDelegateCommand _DataGridSelectionChanged;
         public CommonDelegateCommand DataGridSelectionChanged
         {
-            get { return _DataGridSelectionChanged; }
+            get
+            {
+                if (_DataGridSelectionChanged == null)
+                    _DataGridSelectionChanged = new CommonDelegateCommand(DataGridSelectionChangedM);
+                return _DataGridSelectionChanged;
+            }
         }
 
         private CommonDelegateCommand _DataGridPreviewKeyDown;
         public CommonDelegateCommand DataGridPreviewKeyDown
         {
-            get { return _DataGridPreviewKeyDown; }
+            get
+            {
+                if (_DataGridPreviewKeyDown == null)
+                    _DataGridPreviewKeyDown = new CommonDelegateCommand(DataGridPreviewKeyDownM);
+                return _DataGridPreviewKeyDown;
+            }
         }
 
         RelayCommand _SearchButtonClickCommand;
@@ -241,7 +249,7 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
             if (CurrentSelectedRow != null && CurrentSelectedRow[_ColumnName] != null)
             {
                 // Need to discuss with ravi.
-                LookUpValue = CurrentSelectedRow[_ColumnName].ToString();                
+                LookUpValue = CurrentSelectedRow[_ColumnName].ToString();
                 OnPropertyChanged("LookUpValue");
                 CurrentWindow.Close();
             }
@@ -252,6 +260,7 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
             btnSearchAsync_Click(CurrentWindow);
         }
 
+        // Need to check with out dependencey object.(Interactivity can be used, by passing command parameter)
         protected void DataGridSelectionChangedM(object sender, object Event)
         {
             // Written code to just hold selected row.
@@ -266,6 +275,7 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
             }
         }
 
+        // Need to check with out dependencey object.(Interactivity can be used, by passing command parameter)
         protected void DataGridPreviewKeyDownM(object sender, object Event)
         {
             if (Event is KeyEventArgs)
@@ -281,6 +291,8 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
                 }
             }
         }
+
+        // Need to check with out dependencey object.(Interactivity can be used, by passing command parameter)
         protected override void OnWindowLoaded(object sender, object Event)
         {
             base.OnWindowLoaded(sender, Event);
@@ -301,15 +313,8 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
             }
         }
 
-        protected override void InitializeCommands()
+        public void GetsearchData()
         {
-            base.InitializeCommands();
-            _DataGridPreviewKeyDown = new CommonDelegateCommand(DataGridPreviewKeyDownM);
-            _DataGridSelectionChanged = new CommonDelegateCommand(DataGridSelectionChangedM);
-        }
-
-        public void GetsearchData(Window Window)
-        {           
             DataTable dtSearchData = LookUpSearchCommonFuntions.GetsearchData(_SearchType, _LooUpName, IsShowInActiveRecords);
             if (dtSearchData != null)
                 ApplicationLevelConstants.SearchResult = dtSearchData;
@@ -362,11 +367,11 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
         {
             GridColumnsTemplates Temp = new GridColumnsTemplates();
             ColumnCollection = Temp.FindColumns(_LooUpName, _ViewName);
-            GetsearchData(Window);
+            GetsearchData();
             GetGridData(Window);
             SelectFirstRow = false;
             OnPropertyChanged("SelectFirstRow");
         }
-        #endregion       
+        #endregion
     }
 }

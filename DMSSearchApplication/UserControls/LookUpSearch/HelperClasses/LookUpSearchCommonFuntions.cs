@@ -41,9 +41,9 @@ namespace DMSSearchApplication.UserControls.LookUpSearch.HelperClasses
             dt.Columns.Add("OldEmployeeID", typeof(int));
 
             DataRow dr15 = dt.NewRow();
-            dr15["EmployeeID"] = 4378;
-            dr15["Name"] = "Virendra Lad";
-            dr15["OldEmployeeID"] = 1000;
+            dr15["EmployeeID"] = 437815;
+            dr15["Name"] = "Virendra Lad15";
+            dr15["OldEmployeeID"] = 100015;
             dt.Rows.Add(dr15);
 
             while (i > 0)
@@ -71,9 +71,9 @@ namespace DMSSearchApplication.UserControls.LookUpSearch.HelperClasses
             dt.Columns.Add("ZipCode", typeof(int));
 
             DataRow dr15 = dt.NewRow();
-            dr15["City"] = "Mumbai";
-            dr15["State"] = "Maharashtra";
-            dr15["ZipCode"] = 400078;
+            dr15["City"] = "Mumbai15";
+            dr15["State"] = "Maharashtra15";
+            dr15["ZipCode"] = 40007815;
             dt.Rows.Add(dr15);
 
             while (i > 0)
@@ -100,9 +100,9 @@ namespace DMSSearchApplication.UserControls.LookUpSearch.HelperClasses
             dt.Columns.Add("Country", typeof(string));
 
             DataRow dr15 = dt.NewRow();
-            dr15["City"] = "Mumbai";
-            dr15["State"] = "Maharashtra";
-            dr15["Country"] = "India";
+            dr15["City"] = "Mumbai15";
+            dr15["State"] = "Maharashtra15";
+            dr15["Country"] = "India15";
             dt.Rows.Add(dr15);
 
             while (i > 0)

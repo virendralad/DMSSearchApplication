@@ -28,7 +28,7 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
         /// </summary>
         protected virtual void InitializeCommands()
         {
-            _WindowLoaded = new CommonDelegateCommand(OnWindowLoaded);
+            
         }
 
         protected virtual void OnWindowLoaded(object sender, object Event)
@@ -38,7 +38,12 @@ namespace DMSSearchApplication.UserControls.LookUpSearch
         public CommonDelegateCommand _WindowLoaded;
         public CommonDelegateCommand WindowLoaded
         {
-            get { return _WindowLoaded; }
+            get
+            {                
+                if (_WindowLoaded == null)
+                    _WindowLoaded = new CommonDelegateCommand(OnWindowLoaded);
+                return _WindowLoaded;
+            }
         }
         #endregion
     }
